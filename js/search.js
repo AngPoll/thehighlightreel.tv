@@ -6,6 +6,17 @@
     sep: 9, sept: 9, september: 9, oct: 10, october: 10, nov: 11, november: 11, dec: 12, december: 12
   };
   var MONTH_RE = "jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?";
+  /* Offered in suggestions even when no current clip is tagged with them. */
+  var SERIES = [
+    { name: "World Series" },
+    { name: "NBA Finals" },
+    { name: "Stanley Cup Final", aliases: ["Stanley Cup", "Stanley Cup Finals"] },
+    { name: "Champions League", aliases: ["UEFA Champions League"] },
+    { name: "Ryder Cup" },
+    { name: "Monaco Grand Prix", aliases: ["Monaco GP"] },
+    { name: "US Open", aliases: ["U.S. Open"] },
+    { name: "playoffs", aliases: ["playoff"] }
+  ];
 
   function norm(value) {
     return String(value || "")
@@ -244,13 +255,17 @@
           if (score) out.push({ type: "team", label: team.name, detail: league.name, value: team.name, score: score });
         });
       });
-      var events = {};
+      var seenEvents = {};
+      function addEvent(label, aliases) {
+        var key = norm(label);
+        if (!key || seenEvents[key]) return;
+        seenEvents[key] = true;
+        var score = scoreName([label].concat(aliases || []), q);
+        if (score) out.push({ type: "event", label: label, detail: "Series", value: label, score: score + 5 });
+      }
+      SERIES.forEach(function (series) { addEvent(series.name, series.aliases); });
       (clips || []).forEach(function (clip) {
-        (clip.events || []).forEach(function (event) { events[event] = true; });
-      });
-      Object.keys(events).forEach(function (event) {
-        var score = scoreName([event], q);
-        if (score) out.push({ type: "event", label: event, detail: "Series", value: event, score: score + 5 });
+        (clip.events || []).forEach(function (event) { addEvent(event); });
       });
     }
     var matched = filterClips(clips, query, opts).slice().sort(function (a, b) {

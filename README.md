@@ -23,6 +23,8 @@ Shared files: `css/styles.css`, `js/auth.js`, `js/teams.js`, `js/highlights.js`,
 
 There is no year-ago archive. Every list of clips is one feed, newest first.
 
+Search matches the title, league, sport, teams, player names, and dates such as Sep 28, September 2026, 2026-09-28, yesterday, and last week. It also matches series names such as World Series, NBA Finals, Stanley Cup Final, Champions League, Ryder Cup, Monaco Grand Prix, US Open, and playoffs, and those names show up as you type. A clip is tagged with a series only when that name is in its verified title, or the title directly implies it.
+
 ## Run locally
 
 Serve the folder over HTTP. Opening a page as `file://` makes YouTube embeds show Error 153.
