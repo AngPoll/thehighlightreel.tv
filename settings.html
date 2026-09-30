@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Settings — The Highlight Reel</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/auth.js"></script>
+  <script>if (!THRAuth.currentUser()) location.replace("login.html");</script>
+  <script src="js/teams.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to settings</a>
+  <header class="site-header">
+    <a class="brand" href="app.html"><img src="assets/logo.svg" alt="The Highlight Reel" width="248" height="40"></a>
+    <nav class="nav-cta" aria-label="Account">
+      <a class="btn btn-ghost" href="app.html">Back to highlights</a>
+      <a class="avatar" id="avatarLink" href="settings.html">?</a>
+    </nav>
+  </header>
+  <main class="page" id="main">
+    <h1>Settings</h1>
+    <p class="lede">This account lives in this browser. Signing out returns you to the homepage.</p>
+    <div class="settings">
+      <form id="profile" novalidate>
+        <h2>Profile</h2>
+        <label>Name
+          <input id="name" autocomplete="name" maxlength="40" required aria-describedby="name-error">
+        </label>
+        <p class="error" id="name-error" role="alert"></p>
+        <label>Email
+          <input id="email" type="email" autocomplete="email" required aria-describedby="email-error">
+        </label>
+        <p class="error" id="email-error" role="alert"></p>
+        <label>New password
+          <input id="password" type="password" autocomplete="new-password" aria-describedby="password-help password-error">
+        </label>
+        <p class="help" id="password-help">Leave blank to keep your current password. A new one needs 8 characters.</p>
+        <p class="error" id="password-error" role="alert"></p>
+        <button class="btn btn-primary" type="submit">Save changes</button>
+        <p class="ok" id="saved" role="status"></p>
+      </form>
+      <div>
+        <section>
+          <h2>Favorites</h2>
+          <ul class="fav-list" id="favList"></ul>
+          <a class="btn" href="onboarding.html?edit=1">Edit favorites</a>
+        </section>
+        <section style="margin-top:18px">
+          <h2>Region</h2>
+          <label class="check"><input type="checkbox" id="hideLocked"> Hide videos blocked in my region</label>
+          <p class="help">Hides La Liga, Serie A, Ligue 1, Bundesliga, and Premier League clips that do not play where you are.</p>
+        </section>
+        <section style="margin-top:18px">
+          <h2>Session</h2>
+          <button class="btn" id="signOut" type="button">Sign out</button>
+        </section>
+        <section style="margin-top:18px">
+          <h2>Delete account</h2>
+          <p class="help">Removes this demo account from this browser.</p>
+          <button class="btn btn-danger" id="deleteBtn" type="button">Delete account</button>
+        </section>
+      </div>
+    </div>
+  </main>
+  <dialog id="deleteDlg" aria-labelledby="deleteTitle">
+    <h2 id="deleteTitle">Delete this account?</h2>
+    <p>Your name, favorites, and password hash will be removed from this browser. This cannot be undone.</p>
+    <div class="cta-row">
+      <button class="btn" id="cancelDelete" type="button">Cancel</button>
+      <button class="btn btn-danger" id="confirmDelete" type="button">Delete account</button>
+    </div>
+  </dialog>
+  <script>
+    var user = THRAuth.currentUser();
+    if (!user) user = { name: "", email: "", favorites: { leagues: [], teams: [] }, hideBlocked: false };
+    document.getElementById("avatarLink").textContent = (user.name || "?").trim().charAt(0).toUpperCase() || "?";
+    document.getElementById("avatarLink").setAttribute("aria-label", "Settings for " + user.name);
+    document.getElementById("name").value = user.name;
+    document.getElementById("email").value = user.email;
+    document.getElementById("hideLocked").checked = !!user.hideBlocked;
+
+    function paintFavorites() {
+      var fav = THRAuth.getFavorites();
+      var list = document.getElementById("favList");
+      list.innerHTML = "";
+      if (!fav.leagues.length && !fav.teams.length) {
+        var empty = document.createElement("li");
+        empty.textContent = "No favorites yet";
+        list.appendChild(empty);
+        return;
+      }
+      fav.leagues.forEach(function (id) {
+        var league = THRTeams.league(id);
+        var li = document.createElement("li");
+        li.textContent = (league ? league.name : id) + " · league";
+        list.appendChild(li);
+      });
+      fav.teams.forEach(function (team) {
+        var li = document.createElement("li");
+        li.textContent = team.name;
+        list.appendChild(li);
+      });
+    }
+    paintFavorites();
+
+    function clearErrors() {
+      ["name", "email", "password"].forEach(function (id) {
+        document.getElementById(id + "-error").textContent = "";
+        document.getElementById(id).removeAttribute("aria-invalid");
+      });
+    }
+    document.getElementById("profile").addEventListener("submit", function (event) {
+      event.preventDefault();
+      clearErrors();
+      document.getElementById("saved").textContent = "";
+      THRAuth.updateUser({
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      }).then(function (result) {
+        if (!result.ok) {
+          var slot = document.getElementById((result.field || "email") + "-error");
+          if (slot) slot.textContent = result.error;
+          var input = document.getElementById(result.field);
+          if (input) { input.setAttribute("aria-invalid", "true"); input.focus(); }
+          return;
+        }
+        document.getElementById("password").value = "";
+        document.getElementById("avatarLink").textContent = result.user.name.trim().charAt(0).toUpperCase();
+        document.getElementById("saved").textContent = "Saved.";
+      });
+    });
+    document.getElementById("hideLocked").addEventListener("change", function (event) {
+      THRAuth.updateUser({ hideBlocked: event.target.checked });
+    });
+    document.getElementById("signOut").addEventListener("click", function () {
+      THRAuth.logOut();
+      location.href = "index.html";
+    });
+    var dialog = document.getElementById("deleteDlg");
+    document.getElementById("deleteBtn").addEventListener("click", function () { dialog.showModal(); });
+    document.getElementById("cancelDelete").addEventListener("click", function () { dialog.close(); });
+    document.getElementById("confirmDelete").addEventListener("click", function () {
+      THRAuth.deleteUser();
+      location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

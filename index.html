@@ -1,157 +1,147 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><title>The Highlight Reel — mock-up</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-:root{--bg:#0b0f17;--panel:#131a26;--line:#223047;--txt:#e8eef8;--mut:#8ea0bb;--acc:#ff4d2e;--note:#ffd84d}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--txt)}
-header{display:flex;align-items:center;gap:24px;padding:16px 32px;border-bottom:1px solid var(--line);background:#0e1420;position:sticky;top:0;z-index:5}
-.logo{font-weight:900;font-size:22px;letter-spacing:.5px}.logo span{color:var(--acc)}
-.search{flex:1;max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--mut);font-size:14px}
-.team{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--mut)}
-select{background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14px}
-.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff4d2e,#ffb02e);display:grid;place-items:center;font-weight:800;color:#111}
-main{padding:24px 32px 60px;max-width:1280px;margin:0 auto}
-h2{font-size:18px;margin:28px 0 12px;display:flex;align-items:center;gap:10px}
-.pill{font-size:11px;background:var(--acc);color:#fff;border-radius:999px;padding:3px 8px;font-weight:700}
-.sports{display:flex;gap:10px;flex-wrap:wrap}
-.sport{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-size:14px;font-weight:600;cursor:pointer}
-.sport.on{background:var(--acc);border-color:var(--acc)}
-.hero{display:grid;grid-template-columns:2fr 1fr;gap:18px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .15s}
-.card:hover{transform:translateY(-3px)}
-.thumb{position:relative;aspect-ratio:16/9;background:#000 center/cover}
-.thumb:after{content:"▶";position:absolute;inset:0;margin:auto;width:58px;height:58px;border-radius:50%;background:rgba(0,0,0,.65);display:grid;place-items:center;font-size:22px;color:#fff;border:2px solid #fff}
-.tag{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.75);font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;z-index:1}
-.meta{padding:10px 12px}.meta b{display:block;font-size:14px;line-height:1.3}.meta small{color:var(--mut);font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.side{display:flex;flex-direction:column;gap:18px}
-.inline{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.inline iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
-.note{background:rgba(255,216,77,.08);border:1.5px dashed var(--note);color:var(--note);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.45;margin-top:10px}
-.note b{color:#fff}
-.modal{position:fixed;inset:0;background:rgba(5,8,14,.82);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:50}
-.modal.open{display:flex}
-.box{width:min(960px,92vw);background:#0e1420;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-.box iframe{width:100%;aspect-ratio:16/9;border:0;display:block;background:#000}
-.bar{display:flex;align-items:center;gap:12px;padding:12px 16px}.bar b{flex:1;font-size:15px}
-.x{background:var(--acc);border:0;color:#fff;font-weight:800;border-radius:10px;padding:8px 14px;cursor:pointer}
-.box .note{margin:0 16px 16px}
-.pwrap{position:relative;width:100%;aspect-ratio:16/9;background:#000}
-.pwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.blocked{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;background:radial-gradient(circle at 50% 40%,#1c2638,#0b0f17)}
-.blocked .ic{font-size:40px}.blocked b{font-size:18px}.blocked p{margin:0;color:var(--mut);font-size:14px;max-width:420px;line-height:1.45}
-.lock{position:absolute;right:10px;top:10px;background:rgba(255,77,46,.9);font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;z-index:1}
-.lock.chk{background:rgba(255,176,46,.95);color:#111}.lock.ok{background:rgba(46,170,90,.95)}
-.card.locked .thumb{box-shadow:inset 0 0 0 999px rgba(5,8,14,.6)}
-.card.locked .thumb:after{content:"\1F30D";font-size:26px;background:rgba(0,0,0,.4)}
-.hide-locked .card.locked{display:none!important}
-.tog{margin-left:auto;font-size:13px;color:var(--mut);font-weight:500;display:flex;align-items:center;gap:6px;cursor:pointer}
-@media (max-width:800px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}header{flex-wrap:wrap;padding:12px 16px}main{padding:16px}.search{order:3;max-width:none;flex-basis:100%}}
-</style></head><body>
-<header>
-  <div class="logo">THE HIGHLIGHT <span>REEL</span></div>
-  <div class="search">🔍 Search teams, players, games…</div>
-  <div class="team">My team
-    <select><option>New York Yankees</option><option>Golden State Warriors</option><option>Toronto Maple Leafs</option><option>Inter Miami CF</option><option>FC Barcelona</option></select>
-    <div class="avatar">A</div>
-  </div>
-</header>
-<main>
-  <div class="sports">
-    <div class="sport on">All</div><div class="sport">⚾ MLB</div><div class="sport">🏀 NBA</div><div class="sport">🏒 NHL</div><div class="sport">⚽ MLS</div><div class="sport">⚽ LaLiga</div><div class="sport">⚽ Serie A</div><div class="sport">🎾 WTA</div><div class="sport">⛳ PGA Tour</div><div class="sport">🏎️ F1</div>
-  </div>
-
-  <h2>Featured <span class="pill">MY TEAM</span></h2>
-  <div class="hero">
-    <div>
-      <div class="inline">
-        <div class="pwrap" id="inlineWrap" data-v="KzQsH45n28U"><div id="inlinePlayer"></div></div>
-        <div class="meta"><b>The bullpen catcher for the Yankees head butted Ben Rice’s grand slam instead of catching it</b><small>MLB · official channel embed</small></div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Highlight Reel — Official highlights, one feed</title>
+  <meta name="description" content="The Highlight Reel brings official league highlights into one place. Follow your teams, search any event, and watch in a region-aware player.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/auth.js"></script>
+  <script>if (THRAuth.currentUser()) location.replace("app.html");</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="The Highlight Reel" width="248" height="40"></a>
+    <nav class="nav-cta" aria-label="Account">
+      <a class="btn btn-ghost" href="login.html">Log in</a>
+      <a class="btn btn-primary" href="signup.html">Sign up free</a>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero">
+      <div>
+        <img class="hero-logo" src="assets/logo.svg" alt="" width="420" height="68">
+        <p class="kicker">Official league video</p>
+        <h1>The game ends. The reel is ready.</h1>
+        <p class="lede">The Highlight Reel puts official highlights from every league on one page. Follow a whole competition or the clubs inside it, then watch in a player that checks your region before YouTube shows an error.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="signup.html">Sign up free</a>
+          <a class="btn" href="login.html">Log in</a>
+        </div>
       </div>
-      <div class="note"><b>Option A: plays inline.</b> The official YouTube player sits right in the page. Tapping play starts it here, no link-out. The small YouTube logo in the player is optional for the viewer to click, it isn't forced.</div>
-    </div>
-    <div class="side">
-      <div class="card" data-v="twMRV5C10Y8" data-t="The Day Steph Changed the Rules" data-c="NBA"><div class="thumb" style="background-image:url(https://i.ytimg.com/vi/twMRV5C10Y8/hqdefault.jpg)"><span class="tag">NBA</span></div><div class="meta"><b>The Day Steph Changed the Rules</b><small>NBA</small></div></div>
-      <div class="note"><b>Option B (recommended): opens a pop-up.</b> Click any card and the video plays in an overlay. The page behind stays loaded, so closing it returns you to the exact scroll spot.</div>
-    </div>
-  </div>
+      <div class="preview" aria-hidden="true">
+        <div class="preview-bar"><i></i><i></i><i></i></div>
+        <div class="preview-grid">
+          <div class="preview-card">
+            <div class="preview-shot" style="background-image:url(https://i.ytimg.com/vi/KzQsH45n28U/hqdefault.jpg)"></div>
+            <p>Yankees · MLB</p>
+          </div>
+          <div>
+            <div class="preview-card" style="margin-bottom:10px">
+              <div class="preview-shot" style="background-image:url(https://i.ytimg.com/vi/AL0AGaoJCWY/hqdefault.jpg)"></div>
+              <p>NBA Finals</p>
+            </div>
+            <div class="preview-card">
+              <div class="preview-shot" style="background-image:url(https://i.ytimg.com/vi/ehKRLYHxNgI/hqdefault.jpg)"></div>
+              <p>Inter Miami · MLS</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="film-rule" aria-hidden="true"></div>
 
-  <h2>Most recent <span class="pill">NEW</span><label class="tog"><input type="checkbox" id="hideLocked"> Hide videos blocked in my region</label></h2>
-  <div class="grid">
-    <div class="card" data-v="kxyWwqIswzk" data-t="How Did Messi Score THAT?! All Angles of Stunning Free Kick" data-c="Major League Soccer"><div class="thumb" style="background-image:url(https://i.ytimg.com/vi/kxyWwqIswzk/hqdefault.jpg)"><span class="tag">MLS</span></div><div class="meta"><b>How Did Messi Score THAT?! All Angles of Stunning Free Kick</b><small>Major League Soccer</small></div></div>
-    <div class="card" data-v="tw16-vzKJXQ" data-t="31 goles en 7 partidos: El Barça de Hansi Flick hace historia" data-c="LALIGA"><div class="thumb" style="background-image:url(https://i.ytimg.com/vi/tw16-vzKJXQ/hqdefault.jpg)"><span class="tag">LALIGA</span></div><div class="meta"><b>31 goles en 7 partidos: El Barça de Hansi Flick hace historia</b><small>LALIGA EA SPORTS</small></div></div>
-    <div class="card" data-v="9pT3dpduZ78" data-t="Day 1 in Beijing: Yuan, Tjen, Boulter and more" data-c="WTA"><div class="thumb" style="background-image:url(https://i.ytimg.com/vi/9pT3dpduZ78/hqdefault.jpg)"><span class="tag">WTA</span></div><div class="meta"><b>Day 1 in Beijing: Yuan, Tjen, Boulter and more</b><small>WTA Match Highlights</small></div></div>
-    <div class="card" data-v="aYdI897KI5w" data-t="Napoli-Inter 3-1 | Full match" data-c="Serie A"><div class="thumb" style="background-image:url(https://i.ytimg.com/vi/aYdI897KI5w/hqdefault.jpg)"><span class="tag">SERIE A</span></div><div class="meta"><b>Napoli-Inter 3-1 | Full match</b><small>Serie A</small></div></div>
-    <div class="card" data-v="Dr346xKdzqc" data-t="The most epic Postseason home runs ever" data-c="MLB"><div class="thumb" style="background-image:url(https://i.ytimg.com/vi/Dr346xKdzqc/hqdefault.jpg)"><span class="tag">MLB</span></div><div class="meta"><b>The most epic Postseason home runs ever</b><small>MLB</small></div></div>
-    <div class="card" data-v="JaEBsNcH9IM" data-t="Sit back and enjoy some swings" data-c="PGA Tour"><div class="thumb" style="background-image:url(https://i.ytimg.com/vi/JaEBsNcH9IM/hqdefault.jpg)"><span class="tag">PGA</span></div><div class="meta"><b>Sit back and enjoy some swings</b><small>PGA Tour</small></div></div>
-    <div class="card" data-v="RXPMdxdjB7k" data-t="Chasing The Dream | 2026 Azerbaijan Grand Prix" data-c="Formula 1"><div class="thumb" style="background-image:url(https://i.ytimg.com/vi/RXPMdxdjB7k/hqdefault.jpg)"><span class="tag">F1</span></div><div class="meta"><b>Chasing The Dream | 2026 Azerbaijan Grand Prix</b><small>FORMULA 1</small></div></div>
-    <div class="card" data-v="YDZYCAmEEsg" data-t="Chores They HATED as Kids | NHL Puck Personality" data-c="NHL"><div class="thumb" style="background-image:url(https://i.ytimg.com/vi/YDZYCAmEEsg/hqdefault.jpg)"><span class="tag">NHL</span></div><div class="meta"><b>Chores They HATED as Kids | NHL Puck Personality</b><small>NHL</small></div></div>
-  </div>
-  <div id="empty" style="display:none;color:var(--mut);padding:20px 0">No new highlights for this sport yet. The live site would pull them from the league's channel automatically.</div>
-  <div class="note"><b>Geo-block pre-check:</b> clips from leagues known to restrict embeds by region (La Liga, Serie A, Ligue 1, Bundesliga, Premier League) are flagged and quietly tested in the viewer's own region as the page loads. A blocked one gets a Region locked tag and opens straight to the friendly message, never YouTube's error. The toggle above hides them entirely.</div>
-  <div class="note"><b>Option C: link out to YouTube.</b> Possible, but it sends the viewer away from your site and you lose them. Not recommended.</div>
-</main>
+    <section class="section">
+      <h2>Highlights are everywhere except where you're watching.</h2>
+      <p class="intro">The night is simple. The apps are not. Clips live on a different channel for every league, and some of them refuse to play depending on the country you're in.</p>
+      <div class="cards">
+        <article class="panel">
+          <h3>Ten leagues, ten logins</h3>
+          <p>You came for the replay. You should not have to remember which app posted it.</p>
+        </article>
+        <article class="panel">
+          <h3>Region blocks, after you press play</h3>
+          <p>La Liga, Serie A, Ligue 1, the Bundesliga, and the Premier League often restrict embeds. You find out from an error screen.</p>
+        </article>
+        <article class="panel">
+          <h3>Your teams, different nights</h3>
+          <p>A Wednesday can be hockey, baseball, and a European match. The clips should still be one list.</p>
+        </article>
+      </div>
+    </section>
 
-<div class="modal" id="m"><div class="box">
-  <div class="pwrap" id="modalWrap"></div>
-  <div class="bar"><b id="t"></b><small id="c" style="color:var(--mut)"></small><button class="x" id="close">✕ Close</button></div>
-  <div class="note"><b>How the pop-up works:</b> the video loads in an overlay on top of the page. Nothing underneath reloads, so the scroll position, team filter, and selected sport all stay put. Closing it stops the video and drops you back at the same card. The browser Back button can close it too. If a league blocks a clip in your region, a friendly message shows here instead of YouTube's error.</div>
-</div></div>
+    <section class="section">
+      <h2>How it works</h2>
+      <p class="intro">Three steps, then the feed. Newest clips stay at the top. Search is for the thing you actually remember: a team, a player, a date, a final.</p>
+      <div class="steps">
+        <article class="panel">
+          <div class="step-no">01</div>
+          <h3>Create a free account</h3>
+          <p>Name, email, and a password. That is the whole form.</p>
+        </article>
+        <article class="panel">
+          <div class="step-no">02</div>
+          <h3>Pick who you follow</h3>
+          <p>Browse by league, then favorite the league, specific teams, or both. One pick is enough, and you can change it later.</p>
+        </article>
+        <article class="panel">
+          <div class="step-no">03</div>
+          <h3>Watch the reel</h3>
+          <p>One continuous feed, newest first. The latest clip plays on the page. Everything else opens in a pop-up and leaves your place intact.</p>
+        </article>
+      </div>
+    </section>
 
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-const m=document.getElementById('m'),mw=document.getElementById('modalWrap');
-const SIM=new URLSearchParams(location.search).get('simulateBlock');
-let modalPlayer=null,current=null;
-// YouTube error codes: 100 removed/private, 101 and 150 embedding blocked by owner (often by region), 2 bad id, 5 player error
-function isRegion(code){return code==101||code==150||code=='sim'}
-function blockedHTML(code){
-  const region=isRegion(code);
-  return '<div class="blocked"><div class="ic">'+(region?'🌍':'⚠️')+'</div><b>'+(region?'Not available in your region':'This video isn\'t available')+'</b><p>'+(region?'The league has restricted this highlight where you\'re watching from. Try another clip, there\'s plenty more below.':'This clip was removed or can\'t be played right now. Try another one below.')+'</p></div>';
-}
-const GEO=['LALIGA','SERIE A','LIGUE 1','BUNDESLIGA','PREMIER LEAGUE','EPL'];
-const status={};
-function setBadge(v,cls,text){document.querySelectorAll('.card[data-v="'+v+'"] .thumb').forEach(t=>{let l=t.querySelector('.lock');if(!l){l=document.createElement('span');t.appendChild(l)}l.className='lock '+cls;l.textContent=text})}
-function markCard(v,code){status[v]='locked';document.querySelectorAll('.card[data-v="'+v+'"]').forEach(c=>c.classList.add('locked'));setBadge(v,'',isRegion(code)?'Region locked':'Unavailable')}
-function probe(v){
-  let done=false,pl=null;const d=document.createElement('div');d.style.cssText='position:fixed;left:-9999px;top:0;width:320px;height:180px';d.appendChild(document.createElement('div'));document.body.appendChild(d);
-  const fin=(r,code)=>{if(done)return;done=true;try{pl&&pl.destroy()}catch(e){}d.remove();
-    if(r==='locked')markCard(v,code);else if(r==='ok'){status[v]='ok';setBadge(v,'ok','\u2713 Plays in your region')}else{status[v]='unknown';setBadge(v,'chk','May be region locked')}};
-  if(SIM&&SIM.split(',').includes(v)){fin('locked','sim');return}
-  pl=new YT.Player(d.firstChild,{host:'https://www.youtube-nocookie.com',videoId:v,playerVars:{autoplay:1,mute:1,playsinline:1,origin:location.origin},
-    events:{onError:e=>fin('locked',e.data),onStateChange:e=>{if(e.data===1)fin('ok')}}});
-  setTimeout(()=>fin('unknown'),12000);
-}
-const risky=[...document.querySelectorAll('.card')].filter(c=>GEO.includes(c.querySelector('.tag').textContent.trim().toUpperCase())).map(c=>c.dataset.v);
-risky.forEach(v=>{status[v]='checking';setBadge(v,'chk','Checking region\u2026')});
-function showBlocked(wrap,v,code){wrap.innerHTML=blockedHTML(code);markCard(v,code)}
-function makePlayer(wrap,v,autoplay){
-  wrap.innerHTML='<div></div>';
-  if(SIM&&SIM.split(',').includes(v)){showBlocked(wrap,v,'sim');return null}
-  return new YT.Player(wrap.firstChild,{host:'https://www.youtube-nocookie.com',videoId:v,
-    playerVars:{autoplay:autoplay?1:0,rel:0,playsinline:1,origin:location.origin},
-    events:{onError:e=>showBlocked(wrap,v,e.data)}});
-}
-function openV(v,t,c,push=true){
-  current=v;document.getElementById('t').textContent=t;document.getElementById('c').textContent=c;
-  m.classList.add('open');if(push)history.pushState({m:1},'');
-  if(status[v]==='locked'){mw.innerHTML=blockedHTML(150);return}
-  if(window.YT&&YT.Player)modalPlayer=makePlayer(mw,v,true);
-}
-function closeV(){if(modalPlayer&&modalPlayer.destroy)try{modalPlayer.destroy()}catch(e){}modalPlayer=null;mw.innerHTML='';m.classList.remove('open');current=null}
-function onYouTubeIframeAPIReady(){
-  const w=document.getElementById('inlineWrap');makePlayer(w,w.dataset.v,false);
-  if(current&&!modalPlayer&&status[current]!=='locked')modalPlayer=makePlayer(mw,current,true);
-  risky.forEach((v,i)=>setTimeout(()=>probe(v),300*i));
-}
-document.getElementById('hideLocked').onchange=e=>document.querySelector('.grid').classList.toggle('hide-locked',e.target.checked);
-document.querySelectorAll('.card').forEach(el=>el.onclick=()=>openV(el.dataset.v,el.dataset.t,el.dataset.c));
-document.getElementById('close').onclick=()=>history.back();
-m.onclick=e=>{if(e.target===m)history.back()};
-addEventListener('popstate',closeV);
-addEventListener('keydown',e=>{if(e.key==='Escape'&&m.classList.contains('open'))history.back()});
-const p=new URLSearchParams(location.search).get('open');
-if(p){const el=document.querySelector('.card[data-v="'+p+'"]');if(el)openV(p,el.dataset.t,el.dataset.c,false)}
-document.querySelectorAll('.sport').forEach(s=>s.onclick=()=>{document.querySelectorAll('.sport').forEach(x=>x.classList.remove('on'));s.classList.add('on');const l=s.textContent.replace(/[^A-Za-z0-9 ]/g,'').trim().toUpperCase();let n=0;document.querySelectorAll('.grid .card').forEach(c=>{const t=c.querySelector('.tag').textContent.toUpperCase();const ok=l==='ALL'||l.startsWith(t)||t.startsWith(l);c.style.display=ok?'':'none';if(ok)n++});document.getElementById('empty').style.display=n?'none':'block'});
-</script>
-</body></html>
+    <section class="section">
+      <h2>What you get</h2>
+      <div class="feature-grid">
+        <article class="panel">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8.5" stroke="#ff4d2e" stroke-width="1.6"/><path d="M9 7.5v7l6-3.5-6-3.5z" fill="#ff4d2e"/></svg>
+          </div>
+          <h3>Official league highlights</h3>
+          <p>Clips come from league channels, with the titles those channels published. No invented reels.</p>
+        </article>
+        <article class="panel">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3.5l1.8 4.2 4.6.5-3.5 3.1.9 4.5L11 13.6 7.2 15.8l.9-4.5L4.6 8.2l4.6-.5L11 3.5z" stroke="#ff4d2e" stroke-width="1.4" fill="rgba(255,77,46,.2)"/></svg>
+          </div>
+          <h3>Pick your teams</h3>
+          <p>Favorites fill the My teams menu. Choose a club, a league, or All highlights. A team tag on a card filters the same way.</p>
+        </article>
+        <article class="panel">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="7.5" stroke="#ff4d2e" stroke-width="1.6"/><path d="M3.8 11h14.4M11 3.6c2 2.2 2 12.6 0 14.8M11 3.6c-2 2.2-2 12.6 0 14.8" stroke="#ff4d2e" stroke-width="1.3"/></svg>
+          </div>
+          <h3>Region-aware player</h3>
+          <p>Geo-blocking leagues are checked where you are. A blocked clip gets a plain explanation, and you can hide those videos.</p>
+        </article>
+        <article class="panel">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#ff4d2e" stroke-width="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5" stroke="#ff4d2e" stroke-width="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5" stroke="#ff4d2e" stroke-width="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5" stroke="#ff4d2e" stroke-width="1.5"/></svg>
+          </div>
+          <h3>All sports in one place</h3>
+          <p>Basketball, football, baseball, hockey, soccer, tennis, golf, and Formula 1. One feed, sorted newest to oldest.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div>
+        <h2>Start with the clubs you actually watch.</h2>
+        <p>Free account. Your favorites. The latest official clips on top.</p>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="signup.html">Sign up free</a>
+        <a class="btn" href="login.html">Log in</a>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <span>thehighlightreel.tv</span>
+    <span><a href="login.html">Log in</a> · <a href="signup.html">Sign up free</a></span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up — The Highlight Reel</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/auth.js"></script>
+  <script>if (THRAuth.currentUser()) location.replace("app.html");</script>
+</head>
+<body>
+  <a class="skip" href="#signup">Skip to sign up</a>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="The Highlight Reel" width="248" height="40"></a>
+    <nav class="nav-cta" aria-label="Account"><a class="btn btn-ghost" href="login.html">Log in</a></nav>
+  </header>
+  <main class="auth-wrap">
+    <div class="auth-card">
+      <h1 id="signup">Create your account</h1>
+      <p class="lede">Three fields. Then you pick the leagues and teams you want in the reel.</p>
+      <form id="form" novalidate>
+        <label>Name
+          <input id="name" name="name" autocomplete="name" required maxlength="40" aria-describedby="name-error">
+        </label>
+        <p class="error" id="name-error" role="alert"></p>
+        <label>Email
+          <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-error">
+        </label>
+        <p class="error" id="email-error" role="alert"></p>
+        <label>Password
+          <input id="password" name="password" type="password" autocomplete="new-password" required minlength="8" aria-describedby="password-help password-error">
+        </label>
+        <p class="help" id="password-help">At least 8 characters.</p>
+        <p class="error" id="password-error" role="alert"></p>
+        <button class="btn btn-primary" type="submit">Sign up free</button>
+      </form>
+      <p class="switch-auth">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+  </main>
+  <script>
+    var form = document.getElementById("form");
+    var fields = ["name", "email", "password"];
+    function clearErrors() {
+      fields.forEach(function (id) {
+        document.getElementById(id + "-error").textContent = "";
+        document.getElementById(id).removeAttribute("aria-invalid");
+      });
+    }
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      clearErrors();
+      var button = form.querySelector("button");
+      button.disabled = true;
+      THRAuth.signUp({
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      }).then(function (result) {
+        button.disabled = false;
+        if (!result.ok) {
+          var slot = document.getElementById((result.field || "email") + "-error");
+          if (slot) slot.textContent = result.error;
+          var input = document.getElementById(result.field);
+          if (input) {
+            input.setAttribute("aria-invalid", "true");
+            input.focus();
+          }
+          return;
+        }
+        location.href = "onboarding.html";
+      }).catch(function () {
+        button.disabled = false;
+        document.getElementById("email-error").textContent = "Something went wrong saving this account in the browser.";
+      });
+    });
+  </script>
+</body>
+</html>

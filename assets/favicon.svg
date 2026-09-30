@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="The Highlight Reel">
+  <rect width="32" height="32" rx="8" fill="#0b0f17"/>
+  <circle cx="16" cy="16" r="12" fill="none" stroke="#ff4d2e" stroke-width="2"/>
+  <circle cx="16" cy="5.1" r="1.15" fill="#ff4d2e"/>
+  <circle cx="23.7" cy="8.3" r="1.15" fill="#ffb02e"/>
+  <circle cx="26.9" cy="16" r="1.15" fill="#ff4d2e"/>
+  <circle cx="23.7" cy="23.7" r="1.15" fill="#ffb02e"/>
+  <circle cx="16" cy="26.9" r="1.15" fill="#ff4d2e"/>
+  <circle cx="8.3" cy="23.7" r="1.15" fill="#ffb02e"/>
+  <circle cx="5.1" cy="16" r="1.15" fill="#ff4d2e"/>
+  <circle cx="8.3" cy="8.3" r="1.15" fill="#ffb02e"/>
+  <circle cx="16" cy="16" r="6.1" fill="#0b0f17" stroke="#e8eef8" stroke-width="1"/>
+  <path d="M14 12.15v7.7l6.5-3.85z" fill="#ff4d2e"/>
+</svg>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Highlights — The Highlight Reel</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/auth.js"></script>
+  <script>
+    var user = THRAuth.currentUser();
+    if (!user) location.replace("login.html");
+    else if (!THRAuth.hasFavorites(user)) location.replace("onboarding.html");
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to highlights</a>
+  <header class="site-header app-header">
+    <a class="brand" href="app.html"><img src="assets/logo.svg" alt="The Highlight Reel" width="248" height="40"></a>
+    <form class="search" id="searchForm" role="search">
+      <label class="sr-only" for="q">Search highlights by team, player, event, or date</label>
+      <input id="q" type="search" placeholder="Search teams, players, events, dates…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false">
+      <button class="clear" id="clearSearch" type="button" hidden>Clear</button>
+      <div class="suggest" id="suggest" role="listbox" aria-label="Search suggestions" hidden></div>
+    </form>
+    <div class="team">
+      <span class="team-kicker" id="teamKicker">My teams</span>
+      <div class="team-control">
+        <button type="button" id="teamToggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="teamList">All highlights</button>
+        <div class="team-list" id="teamList" role="listbox" aria-labelledby="teamKicker" hidden></div>
+      </div>
+    </div>
+    <a class="avatar" id="avatarLink" href="settings.html">?</a>
+  </header>
+  <main class="app-main" id="main">
+    <div class="sports" role="toolbar" aria-label="Sports">
+      <button type="button" class="sport on" data-sport="all" aria-pressed="true">All</button>
+      <button type="button" class="sport" data-sport="baseball" aria-pressed="false">Baseball</button>
+      <button type="button" class="sport" data-sport="basketball" aria-pressed="false">Basketball</button>
+      <button type="button" class="sport" data-sport="football" aria-pressed="false">Football</button>
+      <button type="button" class="sport" data-sport="hockey" aria-pressed="false">Hockey</button>
+      <button type="button" class="sport" data-sport="soccer" aria-pressed="false">Soccer</button>
+      <button type="button" class="sport" data-sport="tennis" aria-pressed="false">Tennis</button>
+      <button type="button" class="sport" data-sport="golf" aria-pressed="false">Golf</button>
+      <button type="button" class="sport" data-sport="f1" aria-pressed="false">F1</button>
+    </div>
+    <div class="feed-head">
+      <div>
+        <h2 id="feedTitle">Highlights</h2>
+        <p class="subline" id="feedMeta" aria-live="polite"></p>
+      </div>
+      <label class="tog"><input type="checkbox" id="hideLocked"> Hide videos blocked in my region</label>
+    </div>
+    <div class="feed" id="feed"></div>
+    <div class="empty" id="empty" hidden>
+      <strong>No highlights match</strong>
+      <p></p>
+      <button class="btn" id="resetEmpty" type="button">Reset search and filters</button>
+    </div>
+    <p class="region-note">Clips from La Liga, Serie A, Ligue 1, the Bundesliga, and the Premier League are checked in your region as the page loads. A blocked one opens to a short message instead of YouTube's error.</p>
+  </main>
+  <div class="modal" id="m" hidden>
+    <div class="box" role="dialog" aria-modal="true" aria-labelledby="t">
+      <div class="pwrap" id="modalWrap"></div>
+      <div class="bar">
+        <b id="t"></b>
+        <small id="c" style="color:var(--mut)"></small>
+        <button class="x" id="close" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/teams.js"></script>
+  <script src="js/highlights.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/app.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

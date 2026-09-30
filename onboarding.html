@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pick your teams — The Highlight Reel</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/auth.js"></script>
+  <script>
+    var user = THRAuth.currentUser();
+    var edit = new URLSearchParams(location.search).get("edit") === "1";
+    if (!user) location.replace("login.html");
+    else if (!edit && THRAuth.hasFavorites(user)) location.replace("app.html");
+  </script>
+  <script src="js/teams.js"></script>
+  <script src="js/picker.js"></script>
+</head>
+<body>
+  <a class="skip" href="#picker">Skip to leagues</a>
+  <header class="site-header">
+    <a class="brand" href="app.html"><img src="assets/logo.svg" alt="The Highlight Reel" width="248" height="40"></a>
+    <nav class="nav-cta" aria-label="Account">
+      <a class="btn btn-ghost" id="cancel" href="settings.html" hidden>Back to settings</a>
+    </nav>
+  </header>
+  <main class="page" id="picker">
+    <h1 id="heading">Pick your favorites</h1>
+    <p class="lede">Follow a whole league, specific teams inside it, or both. You need at least one. You can edit this later in Settings.</p>
+    <div id="pickerMount"></div>
+    <div class="picker-bar">
+      <p class="help" id="pickCount" role="status">Nothing selected yet.</p>
+      <button class="btn btn-primary" id="save" type="button" disabled>Continue</button>
+    </div>
+    <p class="error" id="pickError" role="alert"></p>
+  </main>
+  <script>
+    var edit = new URLSearchParams(location.search).get("edit") === "1";
+    var user = THRAuth.currentUser();
+    if (user && (edit || !THRAuth.hasFavorites(user))) {
+      if (edit) {
+        document.getElementById("heading").textContent = "Edit favorites";
+        document.getElementById("save").textContent = "Save favorites";
+        document.getElementById("cancel").hidden = false;
+      }
+      var picker = THRPicker.mount(document.getElementById("pickerMount"), user.favorites, updateCount);
+      updateCount(picker.read());
+      document.getElementById("save").addEventListener("click", function () {
+        var fav = picker.read();
+        if (!total(fav)) {
+          document.getElementById("pickError").textContent = "Pick at least one league or team.";
+          return;
+        }
+        var result = THRAuth.setFavorites(fav);
+        if (!result.ok) {
+          document.getElementById("pickError").textContent = result.error;
+          return;
+        }
+        location.href = edit ? "settings.html" : "app.html";
+      });
+    }
+    function total(fav) { return fav.leagues.length + fav.teams.length; }
+    function updateCount(fav) {
+      var n = total(fav);
+      document.getElementById("pickCount").textContent = n === 0 ? "Nothing selected yet." : n + (n === 1 ? " pick selected." : " picks selected.");
+      document.getElementById("save").disabled = n === 0;
+      document.getElementById("pickError").textContent = "";
+    }
+  </script>
+</body>
+</html>

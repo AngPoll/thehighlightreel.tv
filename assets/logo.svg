@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 446 72" role="img" aria-label="The Highlight Reel">
+  <title>The Highlight Reel</title>
+  <g>
+    <circle cx="36" cy="36" r="30" fill="#121826" stroke="#ff4d2e" stroke-width="3"/>
+    <circle cx="36" cy="9.5" r="2.15" fill="#ff4d2e"/>
+    <circle cx="54.7" cy="17.3" r="2.15" fill="#ffb02e"/>
+    <circle cx="62.5" cy="36" r="2.15" fill="#ff4d2e"/>
+    <circle cx="54.7" cy="54.7" r="2.15" fill="#ffb02e"/>
+    <circle cx="36" cy="62.5" r="2.15" fill="#ff4d2e"/>
+    <circle cx="17.3" cy="54.7" r="2.15" fill="#ffb02e"/>
+    <circle cx="9.5" cy="36" r="2.15" fill="#ff4d2e"/>
+    <circle cx="17.3" cy="17.3" r="2.15" fill="#ffb02e"/>
+    <circle cx="36" cy="36" r="15.2" fill="#0b0f17" stroke="#e8eef8" stroke-width="1.6"/>
+    <path d="M31.2 26.4v19.2L47.6 36z" fill="#ff4d2e"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="80" y="28" fill="#8ea0bb" font-size="13" font-weight="700" letter-spacing="3.4">THE</text>
+    <text x="80" y="56" fill="#f3f6fb" font-size="28" font-weight="800" letter-spacing="0.2">HIGHLIGHT <tspan fill="#ff4d2e">REEL</tspan></text>
+  </g>
+</svg>
